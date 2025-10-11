@@ -1,0 +1,114 @@
+[gd_scene load_steps=13 format=3 uid="uid://7idj41evt4f"]
+
+[ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_r0du0"]
+[ext_resource type="Shader" uid="uid://0juekdonpgpp" path="res://Shaders/Holograph.gdshader" id="2_uu6xs"]
+[ext_resource type="PackedScene" uid="uid://cmoj2q0aj0ihk" path="res://Scenes/Pointer3D.tscn" id="3_r0du0"]
+[ext_resource type="PackedScene" uid="uid://bjcwggw7oycwx" path="res://Scenes/Anchor3D.tscn" id="4_cm0pq"]
+[ext_resource type="PackedScene" uid="uid://bcmr3775qa11h" path="res://Scenes/Screen3D.tscn" id="5_fos0i"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r0du0"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_cm0pq"]
+sky_material = SubResource("ProceduralSkyMaterial_r0du0")
+
+[sub_resource type="Environment" id="Environment_fos0i"]
+background_energy_multiplier = 0.0
+sky = SubResource("Sky_cm0pq")
+tonemap_mode = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r0du0"]
+render_priority = 0
+shader = ExtResource("2_uu6xs")
+shader_parameter/color = Vector3(0, 0.3, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uu6xs"]
+render_priority = 0
+shader = ExtResource("2_uu6xs")
+shader_parameter/color = Vector3(0, 0.3, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cm0pq"]
+render_priority = 0
+shader = ExtResource("2_uu6xs")
+shader_parameter/color = Vector3(0, 0.3, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_fos0i"]
+material = SubResource("ShaderMaterial_cm0pq")
+radius = 0.2
+height = 0.4
+
+[node name="Node3D" type="Node3D"]
+
+[node name="StartXR" parent="." instance=ExtResource("1_r0du0")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fos0i")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6302658, 1.5770843)
+
+[node name="XR Hand L" type="XRNode3D" parent="XROrigin3D"]
+tracker = &"/user/hand_tracker/left"
+
+[node name="OpenXRFbHandTrackingMesh" type="OpenXRFbHandTrackingMesh" parent="XROrigin3D/XR Hand L"]
+material = SubResource("ShaderMaterial_r0du0")
+
+[node name="XRHandModifier3D" type="XRHandModifier3D" parent="XROrigin3D/XR Hand L/OpenXRFbHandTrackingMesh"]
+
+[node name="RayCast3D" parent="XROrigin3D/XR Hand L" instance=ExtResource("3_r0du0")]
+transform = Transform3D(0.0033157843, -0.024206134, -0.99970144, -0.13567507, 0.9904521, -0.024432177, 0.990748, 0.13571557, -4.3698336e-08, -0.023983069, 0.07342743, 0.033298627)
+
+[node name="XR Hand R" type="XRNode3D" parent="XROrigin3D"]
+tracker = &"/user/hand_tracker/right"
+
+[node name="OpenXRFbHandTrackingMesh" type="OpenXRFbHandTrackingMesh" parent="XROrigin3D/XR Hand R"]
+hand = 1
+material = SubResource("ShaderMaterial_uu6xs")
+bones/0/name = "RightPalm"
+bones/1/name = "RightHand"
+bones/2/name = "RightThumbMetacarpal"
+bones/3/name = "RightThumbProximal"
+bones/4/name = "RightThumbDistal"
+bones/5/name = "RightThumbTip"
+bones/6/name = "RightIndexMetacarpal"
+bones/7/name = "RightIndexProximal"
+bones/8/name = "RightIndexIntermediate"
+bones/9/name = "RightIndexDistal"
+bones/10/name = "RightIndexTip"
+bones/11/name = "RightMiddleMetacarpal"
+bones/12/name = "RightMiddleProximal"
+bones/13/name = "RightMiddleIntermediate"
+bones/14/name = "RightMiddleDistal"
+bones/15/name = "RightMiddleTip"
+bones/16/name = "RightRingMetacarpal"
+bones/17/name = "RightRingProximal"
+bones/18/name = "RightRingIntermediate"
+bones/19/name = "RightRingDistal"
+bones/20/name = "RightRingTip"
+bones/21/name = "RightLittleMetacarpal"
+bones/22/name = "RightLittleProximal"
+bones/23/name = "RightLittleIntermediate"
+bones/24/name = "RightLittleDistal"
+bones/25/name = "RightLittleTip"
+
+[node name="XRHandModifier3D" type="XRHandModifier3D" parent="XROrigin3D/XR Hand R/OpenXRFbHandTrackingMesh"]
+hand_tracker = &"/user/hand_tracker/right"
+
+[node name="RayCast3D" parent="XROrigin3D/XR Hand R" instance=ExtResource("3_r0du0")]
+transform = Transform3D(-0.0033158702, 0.02420612, -0.9997015, -0.13567504, 0.99045205, 0.024432179, 0.9907478, 0.13571556, -4.369834e-08, 0.024, 0.07302048, 0.03297069)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D"]
+mesh = SubResource("SphereMesh_fos0i")
+
+[node name="Anchor3D" parent="." instance=ExtResource("4_cm0pq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5275279, -0.7271652)
+
+[node name="Screen3D" parent="Anchor3D" instance=ExtResource("5_fos0i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58134687, 0)

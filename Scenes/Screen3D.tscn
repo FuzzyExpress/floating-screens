@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://bcmr3775qa11h"]
+
+[ext_resource type="Theme" uid="uid://c0wsmkaots3ab" path="res://Themes/Control3D.tres" id="1_5rteq"]
+[ext_resource type="Script" uid="uid://ctpoftrt5kx0" path="res://Scripts/Screen.gd" id="1_gd67i"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_16w26"]
+resource_local_to_scene = true
+size = Vector3(2, 1, 0.001)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_5rteq"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gd67i"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_5rteq")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dfkmq"]
+material = SubResource("StandardMaterial3D_gd67i")
+size = Vector2(2, 1)
+
+[node name="Screen3D" type="StaticBody3D"]
+script = ExtResource("1_gd67i")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_16w26")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_dfkmq")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(1920, 1080)
+
+[node name="Screen" type="Control" parent="SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="CenterContainer" type="CenterContainer" parent="SubViewport/Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="SubViewport/Screen/CenterContainer"]
+custom_minimum_size = Vector2(750, 500)
+layout_mode = 2
+theme = ExtResource("1_5rteq")

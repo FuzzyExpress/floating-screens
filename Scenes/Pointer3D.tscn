@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://cmoj2q0aj0ihk"]
+
+[ext_resource type="Script" uid="uid://g6use1vk7mwj" path="res://Scripts/RayCast.gd" id="1_frori"]
+[ext_resource type="Shader" uid="uid://0juekdonpgpp" path="res://Shaders/Holograph.gdshader" id="2_dvcrk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6h6p6"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_dvcrk")
+shader_parameter/color = Vector3(0, 0.3, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6h6p6"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_6h6p6")
+radius = 0.005
+radial_segments = 12
+
+[node name="RayCast3D" type="RayCast3D"]
+transform = Transform3D(-5.7320566e-15, 1.3113416e-07, -1, 1, 1.3113416e-07, 1.1464112e-14, 1.3113416e-07, -1, -1.3113416e-07, 0, 0, 0)
+target_position = Vector3(0, 200, 0)
+hit_from_inside = true
+collide_with_areas = true
+script = ExtResource("1_frori")
+
+[node name="Laser" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, -2.6226832e-07, 2.2928223e-14, -2.6226832e-07, 1, -1.3113416e-07, 1, 1.3113416e-07)
+mesh = SubResource("CapsuleMesh_6h6p6")
