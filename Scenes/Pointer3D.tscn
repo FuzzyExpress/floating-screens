@@ -1,18 +1,18 @@
 [gd_scene load_steps=5 format=3 uid="uid://cmoj2q0aj0ihk"]
 
 [ext_resource type="Script" uid="uid://g6use1vk7mwj" path="res://Scripts/RayCast.gd" id="1_frori"]
-[ext_resource type="Shader" uid="uid://0juekdonpgpp" path="res://Shaders/Holograph.gdshader" id="2_dvcrk"]
+[ext_resource type="Shader" uid="uid://te8etfuf5lir" path="res://Shaders/Laser.gdshader" id="2_fc2ev"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6h6p6"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("2_dvcrk")
+shader = ExtResource("2_fc2ev")
 shader_parameter/color = Vector3(0, 0.3, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6h6p6"]
 resource_local_to_scene = true
 material = SubResource("ShaderMaterial_6h6p6")
-radius = 0.005
+radius = 0.001
 radial_segments = 12
 
 [node name="RayCast3D" type="RayCast3D"]

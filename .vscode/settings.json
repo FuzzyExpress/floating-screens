@@ -1,0 +1,9 @@
+// hide uid, import, unimportant files that fill screen space
+{
+    "files.exclude": {
+      "**/*.*.uid": true,
+      "**/*.import": true,
+      "**/*.blend[1-9]": true,
+      "**/*.apk*": true
+    }
+}

@@ -54,6 +54,13 @@ environment = SubResource("Environment_fos0i")
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6302658, 1.5770843)
 
+[node name="XR Aim L" type="XRController3D" parent="XROrigin3D"]
+tracker = &"/user/fbhandaim/left"
+
+[node name="RayCast3D" parent="XROrigin3D/XR Aim L" node_paths=PackedStringArray("HandTracker") instance=ExtResource("3_r0du0")]
+transform = Transform3D(1.0000001, 0, 0, 0, -4.371139e-08, 0.99999994, 0, -1, -4.3711385e-08, 0, 0, 0)
+HandTracker = NodePath("../../XR Hand L")
+
 [node name="XR Hand L" type="XRNode3D" parent="XROrigin3D"]
 tracker = &"/user/hand_tracker/left"
 
@@ -62,8 +69,12 @@ material = SubResource("ShaderMaterial_r0du0")
 
 [node name="XRHandModifier3D" type="XRHandModifier3D" parent="XROrigin3D/XR Hand L/OpenXRFbHandTrackingMesh"]
 
-[node name="RayCast3D" parent="XROrigin3D/XR Hand L" instance=ExtResource("3_r0du0")]
-transform = Transform3D(0.0033157843, -0.024206134, -0.99970144, -0.13567507, 0.9904521, -0.024432177, 0.990748, 0.13571557, -4.3698336e-08, -0.023983069, 0.07342743, 0.033298627)
+[node name="XR Aim R" type="XRController3D" parent="XROrigin3D"]
+tracker = &"/user/fbhandaim/right"
+
+[node name="RayCast3D" parent="XROrigin3D/XR Aim R" node_paths=PackedStringArray("HandTracker") instance=ExtResource("3_r0du0")]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.371138e-08, 0.99999994, 0, -0.99999994, -4.371139e-08, 0, 0, 0)
+HandTracker = NodePath("../../XR Hand R")
 
 [node name="XR Hand R" type="XRNode3D" parent="XROrigin3D"]
 tracker = &"/user/hand_tracker/right"
@@ -101,9 +112,6 @@ bones/25/name = "RightLittleTip"
 [node name="XRHandModifier3D" type="XRHandModifier3D" parent="XROrigin3D/XR Hand R/OpenXRFbHandTrackingMesh"]
 hand_tracker = &"/user/hand_tracker/right"
 
-[node name="RayCast3D" parent="XROrigin3D/XR Hand R" instance=ExtResource("3_r0du0")]
-transform = Transform3D(-0.0033158702, 0.02420612, -0.9997015, -0.13567504, 0.99045205, 0.024432179, 0.9907478, 0.13571556, -4.369834e-08, 0.024, 0.07302048, 0.03297069)
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D"]
 mesh = SubResource("SphereMesh_fos0i")
 
@@ -111,4 +119,4 @@ mesh = SubResource("SphereMesh_fos0i")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5275279, -0.7271652)
 
 [node name="Screen3D" parent="Anchor3D" instance=ExtResource("5_fos0i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58134687, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.048113823, 0)

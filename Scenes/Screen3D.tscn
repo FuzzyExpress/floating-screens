@@ -1,48 +1,71 @@
-[gd_scene load_steps=7 format=3 uid="uid://bcmr3775qa11h"]
+[gd_scene load_steps=13 format=3 uid="uid://bcmr3775qa11h"]
 
 [ext_resource type="Theme" uid="uid://c0wsmkaots3ab" path="res://Themes/Control3D.tres" id="1_5rteq"]
 [ext_resource type="Script" uid="uid://ctpoftrt5kx0" path="res://Scripts/Screen.gd" id="1_gd67i"]
+[ext_resource type="Shader" uid="uid://bv4rynfncriyf" path="res://Shaders/Screen.gdshader" id="2_dfkmq"]
+[ext_resource type="Shader" uid="uid://b7r84i2fb87kh" path="res://Shaders/ScreenBack.gdshader" id="2_wjpyy"]
+[ext_resource type="Texture2D" uid="uid://gknyl5fclje1" path="res://Logo.png" id="3_sbbcb"]
+[ext_resource type="Theme" uid="uid://bwq57hwwfhun8" path="res://Themes/ControllerScreen.tres" id="3_wjpyy"]
+[ext_resource type="PackedScene" uid="uid://cmyw3yb3waxsx" path="res://Scenes/Spinner.tscn" id="6_fj64j"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_16w26"]
 resource_local_to_scene = true
 size = Vector3(2, 1, 0.001)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_5rteq"]
-viewport_path = NodePath("SubViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gd67i"]
-resource_local_to_scene = true
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
-shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_5rteq")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sbbcb"]
+render_priority = 0
+shader = ExtResource("2_dfkmq")
+shader_parameter/settings_tex = ExtResource("3_sbbcb")
+shader_parameter/video_tex = ExtResource("3_sbbcb")
+shader_parameter/size = Vector2(2, 1)
+shader_parameter/settings = 1.0
+shader_parameter/cursor = Vector2(0.1, 0.1)
+shader_parameter/cursor_color = Vector3(0, 0.3, 1)
+shader_parameter/cursor_str = -1.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dfkmq"]
-material = SubResource("StandardMaterial3D_gd67i")
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_sbbcb")
+size = Vector2(2, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fj64j"]
+render_priority = 0
+shader = ExtResource("2_wjpyy")
+shader_parameter/image_texture = ExtResource("3_sbbcb")
+shader_parameter/size = Vector2(2, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ip8se"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_fj64j")
 size = Vector2(2, 1)
 
 [node name="Screen3D" type="StaticBody3D"]
 script = ExtResource("1_gd67i")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="ScreenCollider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_16w26")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+[node name="ScreenPanel" type="MeshInstance3D" parent="ScreenCollider"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("PlaneMesh_dfkmq")
 
+[node name="PanelBack" type="MeshInstance3D" parent="ScreenCollider"]
+transform = Transform3D(-1, -8.742278e-08, 3.821371e-15, 0, -4.371139e-08, -1, 8.742278e-08, -1, 4.371139e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_ip8se")
+
 [node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
 size = Vector2i(1920, 1080)
 
-[node name="Screen" type="Control" parent="SubViewport"]
+[node name="Screen" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
+theme = ExtResource("3_wjpyy")
 
-[node name="CenterContainer" type="CenterContainer" parent="SubViewport/Screen"]
+[node name="MarginContainer" type="MarginContainer" parent="Screen"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,7 +73,36 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="SubViewport/Screen/CenterContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Screen/MarginContainer"]
 custom_minimum_size = Vector2(750, 500)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
 theme = ExtResource("1_5rteq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Screen/MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer L" type="VBoxContainer" parent="Screen/MarginContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MenuButton" type="MenuButton" parent="Screen/MarginContainer/PanelContainer/HBoxContainer/VBoxContainer L"]
+layout_mode = 2
+text = "Servers"
+
+[node name="VBoxContainer R" type="VBoxContainer" parent="Screen/MarginContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="Screen/MarginContainer/PanelContainer/HBoxContainer/VBoxContainer R"]
+layout_mode = 2
+toggle_mode = true
+text = "Connect!"
+
+[node name="TextureRect" parent="Screen" instance=ExtResource("6_fj64j")]
+layout_mode = 0
+offset_left = 1783.0
+offset_top = 861.0
+offset_right = 1883.0
+offset_bottom = 961.0

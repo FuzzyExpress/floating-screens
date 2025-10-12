@@ -4,8 +4,8 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yo5nj"]
 resource_local_to_scene = true
-radius = 0.05
-height = 0.25
+radius = 0.025
+height = 0.125
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mb8lh"]
 resource_local_to_scene = true
@@ -16,8 +16,8 @@ shader_parameter/color = Vector3(0, 0.3, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_l2yh2"]
 resource_local_to_scene = true
 material = SubResource("ShaderMaterial_mb8lh")
-radius = 0.05
-height = 0.25
+radius = 0.025
+height = 0.125
 
 [node name="Anchor" type="StaticBody3D"]
 

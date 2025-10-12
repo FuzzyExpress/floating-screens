@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmyw3yb3waxsx"]
+
+[ext_resource type="Texture2D" uid="uid://b8s1ne23ig0tg" path="res://Images/Spinner.png" id="1_mlus7"]
+[ext_resource type="Script" uid="uid://bndkhp1iosi" path="res://Scripts/Spinner.gd" id="2_e5o0o"]
+
+[node name="TextureRect" type="TextureRect"]
+offset_left = 960.0
+offset_top = 309.725
+offset_right = 1060.0
+offset_bottom = 409.725
+pivot_offset = Vector2(0, 100)
+texture = ExtResource("1_mlus7")
+script = ExtResource("2_e5o0o")

@@ -24,7 +24,7 @@ DiscordRPCLoader="res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/DualEditor/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/godot-xr-tools/plugin.cfg")
+enabled=PackedStringArray("res://addons/DualEditor/plugin.cfg", "res://addons/godot-xr-tools/plugin.cfg")
 
 [rendering]
 
