@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dekw36jn3o0hf"]
+
+[ext_resource type="Script" uid="uid://cx2iujgoiqncb" path="res://Scripts/ScreenPlacer.gd" id="1_8tqf4"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8tqf4"]
+size = Vector2(0.1, 0.1)
+
+[node name="ScreenPlacer3D" type="Node3D"]
+script = ExtResource("1_8tqf4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_8tqf4")

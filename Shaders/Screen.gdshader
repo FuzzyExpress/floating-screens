@@ -1,10 +1,11 @@
 shader_type spatial;
-render_mode unshaded;
+render_mode unshaded, alpha_to_coverage;
 
 uniform sampler2D	settings_tex : source_color;
 uniform sampler2D	video_tex : source_color;
-uniform vec2		size;
 uniform float		settings;
+uniform vec2		size;
+uniform float		scale = 0.2;
 
 uniform vec2		cursor1;
 uniform vec3		cursor_color1 : source_color;
@@ -14,20 +15,9 @@ uniform vec2		cursor2;
 uniform vec3		cursor_color2 : source_color;
 uniform float		cursor_str2;
 
-vec2 scaleUV(vec2 iUV) {
-	vec2 uv = iUV * size;
-	// Get the maximum value between size.x and size.y
-	float max_size = max(size.x, size.y);
-	// Scale both dimensions so that the maximum will be 1.0
-	if (max_size > 0.0) {
-		uv /= max_size;
-	}
-	// Center the UV coordinates
-	uv += (1.0 - (size / max_size)) / 2.0;
-	// uv = clamp(uv, 0, 1);
+#include "res://Shaders/Border.gdshaderinc"
+#include "res://Shaders/ScaleUV.gdshaderinc"
 
-	return uv;
-}
 
 float circle(vec2 position, float radius, float feather)
 {
@@ -44,7 +34,7 @@ float cursor_draw(vec2 iUV, float str)
 }
 
 void fragment() {
-	vec2 uv = scaleUV(UV);
+	vec2 uv = scaleUV(UV, size, true);
 
 	vec4 tex;
 	if (settings > 0.001) {
@@ -67,8 +57,7 @@ void fragment() {
 	}
 
 	ALBEDO = tex.rgb;
-	//float test = cursor_draw(uv, cursor);
-	//ALBEDO = vec3(test, test, test);
+	ADD_BEVEL(size, 0.2);
 }
 
 //void light() {
