@@ -3,9 +3,12 @@ extends StaticBody3D
 var width = 1920
 var height = 1080
 
-var size = 1.0
+var size = 0.8
 
 const scaleMulti = 0.001
+
+# Track click state per pointer
+var pointer_states = {}  # Dictionary to track each pointer's previous click state
 
 
 @onready var ScreenF = $ScreenCollider/ScreenPanel
@@ -15,6 +18,7 @@ const scaleMulti = 0.001
 @onready var Settings : Control = $Screen
 @onready var Port : SubViewport = $SubViewport
 
+@onready var Test : Label = $Screen/Label
 
 
 # Updating screen size
@@ -31,7 +35,7 @@ func onChange():
 	Colider.position.y = s.y / 2 
 	
 	Settings.size = Vector2(width, height)
-	Port.size = Vector2(width, height)
+	Port.size     = Vector2(width, height)
 	
 
 
@@ -44,7 +48,7 @@ func getUV(hit_pos: Vector3):
 	# The panel mesh is positioned at (width/2, height/2, 0) and has size (width, height)
 	# So we need to map from local coordinates to UV space (0-1)
 	var uv_x : float = (local_pos.x / s.x) + 0.5
-	var uv_y : float = (local_pos.y / s.y) + 0.5
+	var uv_y : float = (local_pos.y / s.y) # - 0.5
 	
 	# Clamp to 0-1 range to handle edge cases
 	uv_x = clamp(uv_x, 0.0, 1.0)
@@ -52,30 +56,71 @@ func getUV(hit_pos: Vector3):
 	
 	return Vector2(uv_x, uv_y)
 
-func set_cursor(uv, color, str):
-	ScreenF.mesh.material.set_shader_parameter("cursor", uv)
-	ScreenF.mesh.material.set_shader_parameter("cursor_color", color)
-	ScreenF.mesh.material.set_shader_parameter("cursor_str", str)
+func set_cursor(iUV, State):
+	var uv = iUV;
+	var scaler
+	var m = min(float(width), float(height))
+	if m != 0:
+		scaler = Vector2(float(width), float(height)) / m
 	
+	uv.x = G.remap(0, 1, 0.28 * scaler.x, -0.28 * scaler.x,  iUV.x)
+	uv.y = G.remap(0, 1, 0.28 * scaler.y, -0.28 * scaler.y,  iUV.y)
 
-func pointer_event(hit_pos: Vector3, color: Vector3, str: float):
+	ScreenF.mesh.material.set_shader_parameter("cursor" + str(State.ID + 1), uv)
+	ScreenF.mesh.material.set_shader_parameter("cursor_color" + str(State.ID + 1), G.hover if State.click != 1 else G.click)
+	ScreenF.mesh.material.set_shader_parameter("cursor_str" + str(State.ID + 1), State.click)
+
+
+func pointer_exit(State: StateKeeper):
+	ScreenF.mesh.material.set_shader_parameter("cursor_str" + str(State.ID + 1), -1)
+	ScreenF.mesh.material.set_shader_parameter("color" + str(State.ID + 1), G.idle)
+
+func pointer_event(hit_pos: Vector3, State: StateKeeper):
 	var uv = getUV(hit_pos)
-	set_cursor(uv, color, str)
-	print("Hit at %f, %f" % [uv.x, uv.y])
+	uv.y = 1 - uv.y
+	set_cursor(uv, State)
+	# print("Hit at %f, %f" % [uv.x, uv.y])
 
 	var vp_size = Port.size
 	var pos = Vector2(uv.x * vp_size.x, uv.y * vp_size.y)
-	print("Pos at %f, %f" % [pos.x, pos.y])
+	# print("Pos at %f, %f" % [pos.x, pos.y])
 
-	var event := InputEventMouseMotion.new()
-	event.position = pos
-	event.global_position = pos
-	event.relative = Vector2.ZERO  # Optional
-	event.velocity = Vector2.ZERO
-
-	Port.push_input(event)
+	# Always send mouse motion
+	var motion_event := InputEventMouseMotion.new()
+	motion_event.position = pos
+	motion_event.global_position = pos
+	motion_event.relative = Vector2.ZERO
+	motion_event.velocity = Vector2.ZERO
+	Port.push_input(motion_event)
 	
-	print()
+	# Handle click detection (threshold for pinch strength)
+	var pointer_id = State.ID
+	
+	# Get previous click state (default to false if not tracked yet)
+	var was_clicking = pointer_states.get(pointer_id, false)
+	var is_clicking = State.click >= 1.0
+	
+	# Detect state changes
+	if is_clicking and not was_clicking:
+		# Mouse button pressed
+		var press_event := InputEventMouseButton.new()
+		press_event.position = pos
+		press_event.global_position = pos
+		press_event.button_index = MOUSE_BUTTON_LEFT
+		press_event.pressed = true
+		Port.push_input(press_event)
+	
+	elif not is_clicking and was_clicking:
+		# Mouse button released
+		var release_event := InputEventMouseButton.new()
+		release_event.position = pos
+		release_event.global_position = pos
+		release_event.button_index = MOUSE_BUTTON_LEFT
+		release_event.pressed = false
+		Port.push_input(release_event)
+	
+	# Update tracked state
+	pointer_states[pointer_id] = is_clicking
 
 
 # Called when the node enters the scene tree for the first time.
@@ -83,10 +128,6 @@ func _ready() -> void:
 	# Done at run time so screen controll can be edited
 	# Controls under a SubViewport don't show up in the 2D editor.
 	Settings.reparent(Port)
-	
-	# Configure viewport
-	Port.render_target_update_mode = SubViewport.UPDATE_ALWAYS
-	
 	onChange()
 	
 	# Set the viewport texture in the shader (wait one frame for viewport to render)
@@ -99,3 +140,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
+
+#
+#func _on_screen_gui_input(event: InputEvent) -> void:
+	#Test.text = event.as_text()

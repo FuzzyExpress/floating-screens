@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bcmr3775qa11h"]
+[gd_scene load_steps=14 format=3 uid="uid://bcmr3775qa11h"]
 
 [ext_resource type="Theme" uid="uid://c0wsmkaots3ab" path="res://Themes/Control3D.tres" id="1_5rteq"]
 [ext_resource type="Script" uid="uid://ctpoftrt5kx0" path="res://Scripts/Screen.gd" id="1_gd67i"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" uid="uid://b7r84i2fb87kh" path="res://Shaders/ScreenBack.gdshader" id="2_wjpyy"]
 [ext_resource type="Texture2D" uid="uid://gknyl5fclje1" path="res://Logo.png" id="3_sbbcb"]
 [ext_resource type="Theme" uid="uid://bwq57hwwfhun8" path="res://Themes/ControllerScreen.tres" id="3_wjpyy"]
+[ext_resource type="Texture2D" uid="uid://dv5qpylu3eq3w" path="res://Images/Screenshot_20251012_153750.png" id="4_df6an"]
 [ext_resource type="PackedScene" uid="uid://cmyw3yb3waxsx" path="res://Scenes/Spinner.tscn" id="6_fj64j"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_16w26"]
@@ -16,12 +17,15 @@ size = Vector3(2, 1, 0.001)
 render_priority = 0
 shader = ExtResource("2_dfkmq")
 shader_parameter/settings_tex = ExtResource("3_sbbcb")
-shader_parameter/video_tex = ExtResource("3_sbbcb")
-shader_parameter/size = Vector2(2, 1)
+shader_parameter/video_tex = ExtResource("4_df6an")
+shader_parameter/size = Vector2(20, 10)
 shader_parameter/settings = 1.0
-shader_parameter/cursor = Vector2(0.1, 0.1)
-shader_parameter/cursor_color = Vector3(0, 0.3, 1)
-shader_parameter/cursor_str = -1.0
+shader_parameter/cursor1 = Vector2(0.325, -0.145)
+shader_parameter/cursor_color1 = Color(0, 0.68235296, 1, 1)
+shader_parameter/cursor_str1 = 0.0
+shader_parameter/cursor2 = Vector2(0.36, -0.19)
+shader_parameter/cursor_color2 = Color(0, 0.68235296, 1, 1)
+shader_parameter/cursor_str2 = 0.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dfkmq"]
 resource_local_to_scene = true
@@ -32,7 +36,7 @@ size = Vector2(2, 1)
 render_priority = 0
 shader = ExtResource("2_wjpyy")
 shader_parameter/image_texture = ExtResource("3_sbbcb")
-shader_parameter/size = Vector2(2, 1)
+shader_parameter/size = Vector2(20, 10)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ip8se"]
 resource_local_to_scene = true
@@ -80,22 +84,26 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 theme = ExtResource("1_5rteq")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Screen/MarginContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Screen/MarginContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer L" type="VBoxContainer" parent="Screen/MarginContainer/PanelContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Screen/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer L" type="VBoxContainer" parent="Screen/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MenuButton" type="MenuButton" parent="Screen/MarginContainer/PanelContainer/HBoxContainer/VBoxContainer L"]
+[node name="MenuButton" type="MenuButton" parent="Screen/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer L"]
 layout_mode = 2
 text = "Servers"
 
-[node name="VBoxContainer R" type="VBoxContainer" parent="Screen/MarginContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer R" type="VBoxContainer" parent="Screen/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="Screen/MarginContainer/PanelContainer/HBoxContainer/VBoxContainer R"]
+[node name="Button" type="Button" parent="Screen/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer R"]
 layout_mode = 2
 toggle_mode = true
 text = "Connect!"
@@ -106,3 +114,13 @@ offset_left = 1783.0
 offset_top = 861.0
 offset_right = 1883.0
 offset_bottom = 961.0
+
+[node name="Label" type="Label" parent="Screen"]
+layout_mode = 0
+offset_left = 277.0
+offset_top = 721.0
+offset_right = 1643.0
+offset_bottom = 996.0
+text = "static screen shoot"
+horizontal_alignment = 1
+vertical_alignment = 1

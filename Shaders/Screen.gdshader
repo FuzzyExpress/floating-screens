@@ -6,20 +6,24 @@ uniform sampler2D	video_tex : source_color;
 uniform vec2		size;
 uniform float		settings;
 
-uniform vec2		cursor;
-uniform vec3		cursor_color;
-uniform float		cursor_str;
+uniform vec2		cursor1;
+uniform vec3		cursor_color1 : source_color;
+uniform float		cursor_str1;
+
+uniform vec2		cursor2;
+uniform vec3		cursor_color2 : source_color;
+uniform float		cursor_str2;
 
 vec2 scaleUV(vec2 iUV) {
 	vec2 uv = iUV * size;
-	// Get the minimum value between size.x and size.y
-	float min_size = max(size.x, size.y);
-	// Scale both dimensions so that the minimum will be 1.0
-	if (min_size > 0.0) {
-		uv /= min_size;
+	// Get the maximum value between size.x and size.y
+	float max_size = max(size.x, size.y);
+	// Scale both dimensions so that the maximum will be 1.0
+	if (max_size > 0.0) {
+		uv /= max_size;
 	}
 	// Center the UV coordinates
-	uv += (1.0 - (size / min_size)) / 2.0;
+	uv += (1.0 - (size / max_size)) / 2.0;
 	// uv = clamp(uv, 0, 1);
 
 	return uv;
@@ -30,10 +34,10 @@ float circle(vec2 position, float radius, float feather)
 	return smoothstep(radius, radius + feather, length(position - vec2(0.5)));
 }
 
-float cursor_draw(vec2 iUV, vec2 pos)
+float cursor_draw(vec2 iUV, float str)
 {
-	float inner = 1.5 - cursor_str * 0.8;
-	float outer = 2.0 - cursor_str * 0.8;
+	float inner = 1.5 - str * 0.8;
+	float outer = 2.0 - str * 0.8;
 	float feather = 0.5;
 	float scaler = 0.005;
 	return ( circle(iUV, inner*scaler, feather*scaler) - circle(iUV, outer*scaler, feather*scaler) ) * 0.5;
@@ -52,9 +56,14 @@ void fragment() {
 		tex = texture(video_tex, 	UV);
 	}
 
-	if (cursor_str > -0.01) {
-		uv += cursor;
-		tex.rgb = mix( tex.rgb, cursor_color, cursor_draw(uv, cursor) );
+	
+	if (cursor_str1 > -0.01) {
+		vec2 uv1 = uv + cursor1;
+		tex.rgb = mix( tex.rgb, cursor_color1, cursor_draw(uv1, cursor_str1) );
+	}
+	if (cursor_str2 > -0.01) {
+		vec2 uv2 = uv + cursor2;
+		tex.rgb = mix( tex.rgb, cursor_color2, cursor_draw(uv2, cursor_str2) );
 	}
 
 	ALBEDO = tex.rgb;

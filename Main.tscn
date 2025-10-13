@@ -22,16 +22,22 @@ tonemap_mode = 2
 render_priority = 0
 shader = ExtResource("2_uu6xs")
 shader_parameter/color = Vector3(0, 0.3, 1)
+shader_parameter/cursor = Vector3(-1, -1, -1)
+shader_parameter/cursor_str = -1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uu6xs"]
 render_priority = 0
 shader = ExtResource("2_uu6xs")
 shader_parameter/color = Vector3(0, 0.3, 1)
+shader_parameter/cursor = Vector3(-1, -1, -1)
+shader_parameter/cursor_str = -1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cm0pq"]
 render_priority = 0
 shader = ExtResource("2_uu6xs")
 shader_parameter/color = Vector3(0, 0.3, 1)
+shader_parameter/cursor = Vector3(-1, -1, -1)
+shader_parameter/cursor_str = -1.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_fos0i"]
 material = SubResource("ShaderMaterial_cm0pq")
@@ -57,9 +63,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6302658, 1.5770843)
 [node name="XR Aim L" type="XRController3D" parent="XROrigin3D"]
 tracker = &"/user/fbhandaim/left"
 
-[node name="RayCast3D" parent="XROrigin3D/XR Aim L" node_paths=PackedStringArray("HandTracker") instance=ExtResource("3_r0du0")]
+[node name="RayCast3D" parent="XROrigin3D/XR Aim L" node_paths=PackedStringArray("HandTracker", "Controller") instance=ExtResource("3_r0du0")]
 transform = Transform3D(1.0000001, 0, 0, 0, -4.371139e-08, 0.99999994, 0, -1, -4.3711385e-08, 0, 0, 0)
 HandTracker = NodePath("../../XR Hand L")
+Controller = NodePath("..")
+ID = 1
 
 [node name="XR Hand L" type="XRNode3D" parent="XROrigin3D"]
 tracker = &"/user/hand_tracker/left"
@@ -72,9 +80,10 @@ material = SubResource("ShaderMaterial_r0du0")
 [node name="XR Aim R" type="XRController3D" parent="XROrigin3D"]
 tracker = &"/user/fbhandaim/right"
 
-[node name="RayCast3D" parent="XROrigin3D/XR Aim R" node_paths=PackedStringArray("HandTracker") instance=ExtResource("3_r0du0")]
+[node name="RayCast3D" parent="XROrigin3D/XR Aim R" node_paths=PackedStringArray("HandTracker", "Controller") instance=ExtResource("3_r0du0")]
 transform = Transform3D(0.9999999, 0, 0, 0, -4.371138e-08, 0.99999994, 0, -0.99999994, -4.371139e-08, 0, 0, 0)
 HandTracker = NodePath("../../XR Hand R")
+Controller = NodePath("..")
 
 [node name="XR Hand R" type="XRNode3D" parent="XROrigin3D"]
 tracker = &"/user/hand_tracker/right"

@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bjcwggw7oycwx"]
+[gd_scene load_steps=6 format=3 uid="uid://bjcwggw7oycwx"]
 
 [ext_resource type="Shader" uid="uid://0juekdonpgpp" path="res://Shaders/Holograph.gdshader" id="1_vw67k"]
+[ext_resource type="Script" uid="uid://0xiso6ninkhx" path="res://Scripts/Anchor.gd" id="1_wkkf2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yo5nj"]
 resource_local_to_scene = true
@@ -12,6 +13,8 @@ resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_vw67k")
 shader_parameter/color = Vector3(0, 0.3, 1)
+shader_parameter/cursor = Vector3(0, 0, 0.021)
+shader_parameter/cursor_str = 1.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_l2yh2"]
 resource_local_to_scene = true
@@ -20,6 +23,7 @@ radius = 0.025
 height = 0.125
 
 [node name="Anchor" type="StaticBody3D"]
+script = ExtResource("1_wkkf2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
