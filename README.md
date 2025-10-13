@@ -24,3 +24,13 @@ Pass through and hand tracking support.
 ## How to use it
 
 You don't yet, I've not built it.
+
+## Contributing
+```bash
+git clone https://github.com/FuzzyExpress/floating-screens
+cd floating-screens
+godot project.godot # godot -> godot editor 4.5 stable executable
+```
+Or in a file explorer: right click `project.godot` -> open with -> locate Godot 4.5 Stable
+
+You'll need to install the Android build template, then you can use the remote deploy button to install and run the app on any connected Quest device with developer mode enabled.
