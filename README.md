@@ -26,8 +26,7 @@ Pass through and hand tracking support.
 You don't yet, I've not built it.
 
 ## Contributing
-```
-bash
+```bash
 git clone https://github.com/FuzzyExpress/floating-screens
 cd floating-screens
 godot project.godot # godot -> godot editor 4.5 stable executable
