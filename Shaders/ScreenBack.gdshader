@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded, alpha_to_coverage;
+render_mode unshaded, cull_disabled;
 
 uniform sampler2D	image_texture : source_color;
 uniform vec2		size;
@@ -12,7 +12,11 @@ void fragment() {
 	vec4 tex = texture(image_texture, uv);
 	
 	ALBEDO = mix( vec3(0.03), tex.rgb, tex.a );
-	ADD_BEVEL(size, 0.2);
+	// ADD_BEVEL(size, 0.025);
+	if ( bevel(UV, size, 0.025) > 0.5 )
+	{
+		discard;
+	}
 }
 
 //void light() {

@@ -1,8 +1,8 @@
 extends Node
 
-var idle	: Vector3 = Vector3(0.0, 0.3, 1.0)
-var hover	: Vector3 = Vector3(0.0, 0.8, 1.0)
-var click	: Vector3 = Vector3(1.0, 0.7, 0.1)
+var idle	: Color = Color(0.0, 0.3, 1.0)
+var hover	: Color = Color(0.0, 0.8, 1.0)
+var click	: Color = Color(1.0, 0.7, 0.1)
 
 
 

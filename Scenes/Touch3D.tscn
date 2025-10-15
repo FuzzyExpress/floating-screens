@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b355ydffmfutm"]
+
+[ext_resource type="Script" uid="uid://dhyuj26rmludf" path="res://Scripts/Touch.gd" id="1_hoafc"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0i20b"]
+resource_local_to_scene = true
+radius = 0.1
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hoafc"]
+radius = 0.007
+height = 0.025
+
+[node name="Touch3D" type="ShapeCast3D"]
+shape = SubResource("SphereShape3D_0i20b")
+target_position = Vector3(0, 0, 0)
+script = ExtResource("1_hoafc")
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01345963, 0)
+shape = SubResource("CapsuleShape3D_hoafc")
+target_position = Vector3(0, 0, 0)

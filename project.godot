@@ -26,6 +26,11 @@ G="*res://Scripts/Globals.gd"
 
 enabled=PackedStringArray("res://addons/DualEditor/plugin.cfg", "res://addons/godot-xr-tools/plugin.cfg")
 
+[layer_names]
+
+3d_physics/layer_1="Screens"
+3d_physics/layer_32="Camera"
+
 [rendering]
 
 renderer/rendering_method="mobile"

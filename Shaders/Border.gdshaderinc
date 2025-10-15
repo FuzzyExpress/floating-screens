@@ -35,7 +35,7 @@ float bevel(vec2 iUV, vec2 _size, float _scale)
 	float cornerDist = length(max(vec2(1.0) - dist, vec2(0.0)));
 	float bevel = smoothstep(1.0, 0.0, cornerDist);
 	
-	return float(bevel == 0.);
+	return float(bevel < 0.00001);
 }
 
 #define ADD_BORDER(size, scale) ALPHA = 1. - border(UV, size, scale)

@@ -11,7 +11,7 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_16w26"]
 resource_local_to_scene = true
-size = Vector3(2, 1, 0.001)
+size = Vector3(1.92, 1.08, 0.05)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sbbcb"]
 render_priority = 0
@@ -19,7 +19,7 @@ shader = ExtResource("2_dfkmq")
 shader_parameter/settings_tex = ExtResource("3_sbbcb")
 shader_parameter/video_tex = ExtResource("4_df6an")
 shader_parameter/settings = 1.0
-shader_parameter/size = Vector2(20, 10)
+shader_parameter/size = Vector2(1.92, 1.08)
 shader_parameter/scale = 0.2
 shader_parameter/cursor1 = Vector2(0.325, -0.145)
 shader_parameter/cursor_color1 = Color(0, 0.68235296, 1, 1)
@@ -31,32 +31,32 @@ shader_parameter/cursor_str2 = 0.0
 [sub_resource type="PlaneMesh" id="PlaneMesh_dfkmq"]
 resource_local_to_scene = true
 material = SubResource("ShaderMaterial_sbbcb")
-size = Vector2(2, 1)
+size = Vector2(1.92, 1.08)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fj64j"]
 render_priority = 0
 shader = ExtResource("2_wjpyy")
 shader_parameter/image_texture = ExtResource("3_sbbcb")
-shader_parameter/size = Vector2(20, 10)
+shader_parameter/size = Vector2(1.92, 1.08)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ip8se"]
 resource_local_to_scene = true
 material = SubResource("ShaderMaterial_fj64j")
-size = Vector2(2, 1)
+size = Vector2(1.92, 1.08)
 
 [node name="Screen3D" type="StaticBody3D"]
 script = ExtResource("1_gd67i")
 
 [node name="ScreenCollider" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.54308635, -0.025)
 shape = SubResource("BoxShape3D_16w26")
 
 [node name="ScreenPanel" type="MeshInstance3D" parent="ScreenCollider"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.024701208)
 mesh = SubResource("PlaneMesh_dfkmq")
 
 [node name="PanelBack" type="MeshInstance3D" parent="ScreenCollider"]
-transform = Transform3D(-1, -8.742278e-08, 3.821371e-15, 0, -4.371139e-08, -1, 8.742278e-08, -1, 4.371139e-08, 0, 0, 0)
+transform = Transform3D(-1, -8.742278e-08, 3.821371e-15, 0, -4.371139e-08, -1, 8.742278e-08, -1, 4.371139e-08, 0, 0, 0.024)
 mesh = SubResource("PlaneMesh_ip8se")
 
 [node name="SubViewport" type="SubViewport" parent="."]

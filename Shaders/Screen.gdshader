@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded, alpha_to_coverage;
+render_mode unshaded;
 
 uniform sampler2D	settings_tex : source_color;
 uniform sampler2D	video_tex : source_color;
@@ -8,11 +8,11 @@ uniform vec2		size;
 uniform float		scale = 0.2;
 
 uniform vec2		cursor1;
-uniform vec3		cursor_color1 : source_color;
+uniform vec4		cursor_color1 : source_color;
 uniform float		cursor_str1;
 
 uniform vec2		cursor2;
-uniform vec3		cursor_color2 : source_color;
+uniform vec4		cursor_color2 : source_color;
 uniform float		cursor_str2;
 
 #include "res://Shaders/Border.gdshaderinc"
@@ -49,15 +49,19 @@ void fragment() {
 	
 	if (cursor_str1 > -0.01) {
 		vec2 uv1 = uv + cursor1;
-		tex.rgb = mix( tex.rgb, cursor_color1, cursor_draw(uv1, cursor_str1) );
+		tex.rgb = mix( tex.rgb, cursor_color1.rgb, cursor_draw(uv1, cursor_str1) );
 	}
 	if (cursor_str2 > -0.01) {
 		vec2 uv2 = uv + cursor2;
-		tex.rgb = mix( tex.rgb, cursor_color2, cursor_draw(uv2, cursor_str2) );
+		tex.rgb = mix( tex.rgb, cursor_color2.rgb, cursor_draw(uv2, cursor_str2) );
 	}
 
 	ALBEDO = tex.rgb;
-	ADD_BEVEL(size, 0.2);
+	// ADD_BEVEL(size, 0.025);
+	if ( bevel(UV, size, 0.025) > 0.5 )
+	{
+		discard;
+	}
 }
 
 //void light() {

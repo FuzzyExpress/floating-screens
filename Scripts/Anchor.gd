@@ -7,6 +7,7 @@ var isHeld : bool
 var heldBy : StateKeeper
 
 
+
 func pointer_event(hit_pos: Vector3, State: StateKeeper):
 	Anchor.mesh.surface_get_material(0).set_shader_parameter("cursor", hit_pos)
 	Anchor.mesh.surface_get_material(0).set_shader_parameter("cursor_str", State.click)

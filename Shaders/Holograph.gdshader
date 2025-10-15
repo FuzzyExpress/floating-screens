@@ -1,7 +1,9 @@
 shader_type spatial;
 render_mode unshaded, cull_disabled, blend_mix, world_vertex_coords;
 
-uniform vec3 color = vec3(0.0, 0.3, 1.0);
+uniform vec4 color = vec4(0.0, 0.3, 1.0, 1.0);
+uniform bool rainbow = false;
+
 uniform vec3 cursor = vec3(-1, -1, -1);
 uniform float cursor_str = -1;
 
@@ -31,8 +33,16 @@ float cursor_draw(vec3 pos, float str)
 	return ( circle(pos, inner*scaler, feather*scaler) - circle(pos, outer*scaler, feather*scaler) ) * 0.5;
 }
 
+#include "res://Shaders/HSV.gdshaderinc"
+
 void fragment() {
-    ALBEDO = color;
+	if (!rainbow) {
+    	ALBEDO = color.rgb;
+	} else {
+		float liner = coords.x + coords.y + coords.z;
+		ALBEDO = hsv2rgb(vec3( mod(liner / 1.9 - TIME/6., 1.), 1, 1));
+	}
+	
 	
 	float f = fresnel(3.0, NORMAL, VIEW);
 	float e = f * 0.4;
