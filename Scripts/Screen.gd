@@ -1,9 +1,9 @@
 extends StaticBody3D
 
-var width = 1920
-var height = 1080
+@export var width = 1920
+@export var height = 1080
 
-var size = 0.8
+@export var size = 0.4
 
 const scaleMulti = 0.001
 
@@ -18,8 +18,9 @@ var pointer_states = {}  # Dictionary to track each pointer's previous click sta
 @onready var Settings : Control = $Screen
 @onready var Port : SubViewport = $SubViewport
 
-@onready var Test : Label = $Screen/Label
-
+var settingsOpenAmt : float = 0
+var settingsOpen : bool  = false
+var settingsLast : bool  = false
 
 # Updating screen size
 func onChange():
@@ -67,15 +68,20 @@ func set_cursor(iUV, State):
 	uv.y = G.remap(0, 1, 0.28 * scaler.y, -0.28 * scaler.y,  iUV.y)
 
 	ScreenF.mesh.material.set_shader_parameter("cursor" + str(State.ID + 1), uv)
-	ScreenF.mesh.material.set_shader_parameter("cursor_color" + str(State.ID + 1), G.hover if State.click != 1 else G.click)
-	ScreenF.mesh.material.set_shader_parameter("cursor_str" + str(State.ID + 1), State.click)
+	ScreenF.mesh.material.set_shader_parameter("cursor_color" + str(State.ID + 1), State.c)
+	ScreenF.mesh.material.set_shader_parameter("cursor_str" + str(State.ID + 1), State.str)
 
 
 func pointer_exit(State: StateKeeper):
 	ScreenF.mesh.material.set_shader_parameter("cursor_str" + str(State.ID + 1), -1)
-	ScreenF.mesh.material.set_shader_parameter("color" + str(State.ID + 1), G.idle)
+	#ScreenF.mesh.material.set_shader_parameter("color" + str(State.ID + 1), G.idle) 
 
 func pointer_event(hit_pos: Vector3, State: StateKeeper):
+	if settingsLast != (State.clickSettings > G.PinchThresh):
+		settingsLast = (State.clickSettings > G.PinchThresh)
+		if settingsLast: settingsOpen = not settingsOpen
+			
+	
 	var uv = getUV(hit_pos)
 	uv.y = 1 - uv.y
 	set_cursor(uv, State)
@@ -98,7 +104,8 @@ func pointer_event(hit_pos: Vector3, State: StateKeeper):
 	
 	# Get previous click state (default to false if not tracked yet)
 	var was_clicking = pointer_states.get(pointer_id, false)
-	var is_clicking = State.click >= 1.0
+	var is_clicking = State.clickL >= G.PinchThresh
+
 	
 	# Detect state changes
 	if is_clicking and not was_clicking:
@@ -139,7 +146,15 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	pass
+	if settingsOpen and settingsOpenAmt != 1:
+		settingsOpenAmt += ( 0.0125 + 0.025 ) * 0.5
+		settingsOpenAmt = clamp(settingsOpenAmt, 0, 1) 
+		ScreenF.mesh.surface_get_material(0).set_shader_parameter("settings", G.EaseIOCubic(settingsOpenAmt))
+	
+	elif not settingsOpen and settingsOpenAmt != 0:
+		settingsOpenAmt -= ( 0.0125 + 0.025 ) * 0.5
+		settingsOpenAmt = clamp(settingsOpenAmt, 0, 1) 
+		ScreenF.mesh.surface_get_material(0).set_shader_parameter("settings", G.EaseIOCubic(settingsOpenAmt))
 
 #
 #func _on_screen_gui_input(event: InputEvent) -> void:

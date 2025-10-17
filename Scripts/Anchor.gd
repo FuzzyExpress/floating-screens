@@ -10,21 +10,21 @@ var heldBy : StateKeeper
 
 func pointer_event(hit_pos: Vector3, State: StateKeeper):
 	Anchor.mesh.surface_get_material(0).set_shader_parameter("cursor", hit_pos)
-	Anchor.mesh.surface_get_material(0).set_shader_parameter("cursor_str", State.click)
-	Anchor.mesh.surface_get_material(0).set_shader_parameter("color", G.click if State.click == 1 else G.hover)
+	Anchor.mesh.surface_get_material(0).set_shader_parameter("cursor_str", State.clickL)
+	Anchor.mesh.surface_get_material(0).set_shader_parameter("color", State.c)
 	
-	if State.click == 1 and not isHeld:
+	if State.clickL == 1 and not isHeld:
 		self.reparent(State.getController())
 		isHeld = true
 		heldBy = State
 		
-	elif isHeld and heldBy.click != 1:
+	elif isHeld and heldBy.clickL != 1:
 		isHeld = false
 		heldBy = null
 		self.reparent(orignParent)
 	
 	
-func pointer_exit(State: StateKeeper):
+func pointer_exit(_State: StateKeeper):
 	if not isHeld:
 		Anchor.mesh.surface_get_material(0).set_shader_parameter("cursor_str", -1)
 		Anchor.mesh.surface_get_material(0).set_shader_parameter("color", G.idle)
@@ -37,7 +37,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var strongLevel = true
 	# Level the screen: keep facing direction but make Y straight up
 	if not strongLevel:

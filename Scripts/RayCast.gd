@@ -63,10 +63,12 @@ func _process(_delta: float) -> void:
 
 	var distance = self.global_position.distance_to(pos)
 	
-	if nearInterface: State.click = hit
+	if nearInterface: State.clickL = hit
+	State.hit = hit
+	
+	State.update()
 	
 	if hit:
-		var c = G.click if State.click == 1 else G.hover
 		var target	= getCollider(hit)
 		
 		if not target or targetPast and targetPast != target and targetPast.has_method("pointer_event"):
@@ -78,29 +80,27 @@ func _process(_delta: float) -> void:
 		Laser.mesh.height		= clamp( distance - 0.2, 0, INF )
 		Laser.mesh.radius		= 0.001
 		Laser.position			= Vector3(0, distance/2, 0)
-		Laser.mesh.material.set_shader_parameter("color", c)
-		Hand.material.set_shader_parameter("color", c)
+		Laser.mesh.material.set_shader_parameter("color", State.c)
+		Hand.material.set_shader_parameter("color", State.c)
 		
 		targetPast = target
 	else:
 		if targetPast: targetPast.pointer_exit(State)
-		var c = G.click if State.click == 1 else G.idle
 		Laser.mesh.height		= 4.8
 		Laser.mesh.radius		= 0.0007
 		Laser.position			= Vector3(0, 2.5, 0)
-		Laser.mesh.material.set_shader_parameter("color", c)
-		Hand.material.set_shader_parameter("color", c)
+		Laser.mesh.material.set_shader_parameter("color", State.c)
+		Hand.material.set_shader_parameter("color", State.c)
 		targetPast = null
 
 
 func _on_float_changed(_name: String, value: float) -> void:
 	match _name:
 		"index_pinch_strength":
-			State.click = value
-			# pass # left_index_strength.get_surface_override_material(0).set_shader_parameter("value", value)
+			State.clickL = value
 		"middle_pinch_strength":
-			pass # left_middle_strength.get_surface_override_material(0).set_shader_parameter("value", value)
+			State.clickR = value
 		"ring_pinch_strength":
-			pass # left_ring_strength.get_surface_override_material(0).set_shader_parameter("value", value)
+			State.clickM = value
 		"little_pinch_strength":
-			pass # left_little_strength.get_surface_override_material(0).set_shader_parameter("value", value)
+			State.clickSettings = value

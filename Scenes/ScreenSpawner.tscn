@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cc6dxypu4c2hq"]
+[gd_scene load_steps=9 format=3 uid="uid://cc6dxypu4c2hq"]
 
 [ext_resource type="Script" uid="uid://cs314nfp4kdla" path="res://Scripts/ScreenSpawner.gd" id="1_fs7bl"]
 [ext_resource type="Shader" uid="uid://csquqao4xpocf" path="res://Shaders/ScreenSimple.gdshader" id="2_bcxli"]
@@ -12,10 +12,39 @@ height = 0.965
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tlvak"]
 render_priority = 0
 shader = ExtResource("2_bcxli")
+shader_parameter/rainbow = true
 
 [sub_resource type="QuadMesh" id="QuadMesh_fs7bl"]
 material = SubResource("ShaderMaterial_tlvak")
 size = Vector2(0.175, 0.1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tlvak"]
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0.6, 0, 0.627451)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.8, 0.4, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hgcgu"]
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.6, 0, 0, 0.627451)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.4, 0.4, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="Screen Spawner" type="BoneAttachment3D"]
 bone_name = "LeftPalm"
@@ -55,8 +84,9 @@ alignment = 1
 [node name="Index" type="ProgressBar" parent="MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/fill = SubResource("StyleBoxFlat_tlvak")
 max_value = 1.0
-value = 1.0
+value = 0.95
 show_percentage = false
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/PanelContainer/VBoxContainer/Index"]
@@ -74,7 +104,9 @@ text = "Place a new Screen here"
 [node name="Middle" type="ProgressBar" parent="MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/fill = SubResource("StyleBoxFlat_hgcgu")
 max_value = 1.0
+value = 0.51
 show_percentage = false
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/PanelContainer/VBoxContainer/Middle"]
@@ -92,7 +124,9 @@ text = "Start placing an Aligned Screen"
 [node name="Ring" type="ProgressBar" parent="MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/fill = SubResource("StyleBoxFlat_hgcgu")
 max_value = 1.0
+value = 0.76
 show_percentage = false
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/PanelContainer/VBoxContainer/Ring"]
@@ -110,7 +144,9 @@ text = "<Not Implemented>"
 [node name="Pinky" type="ProgressBar" parent="MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/fill = SubResource("StyleBoxFlat_hgcgu")
 max_value = 1.0
+value = 0.25
 show_percentage = false
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/PanelContainer/VBoxContainer/Pinky"]

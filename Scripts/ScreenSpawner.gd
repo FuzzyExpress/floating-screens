@@ -21,8 +21,6 @@ var LoadScreen = preload("res://Scenes/Screen3D.tscn")
 var LoadAnchor = preload("res://Scenes/Anchor3D.tscn")
 
 func loadScreen():
-
-
 	push_warning('Loading Screen')
 	var anchor : Node3D = LoadAnchor.instantiate()
 	var screen : Node3D = LoadScreen.instantiate()

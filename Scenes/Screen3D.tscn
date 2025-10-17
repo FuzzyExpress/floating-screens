@@ -1,24 +1,27 @@
-[gd_scene load_steps=14 format=3 uid="uid://bcmr3775qa11h"]
+[gd_scene load_steps=15 format=3 uid="uid://bcmr3775qa11h"]
 
 [ext_resource type="Theme" uid="uid://c0wsmkaots3ab" path="res://Themes/Control3D.tres" id="1_5rteq"]
 [ext_resource type="Script" uid="uid://ctpoftrt5kx0" path="res://Scripts/Screen.gd" id="1_gd67i"]
 [ext_resource type="Shader" uid="uid://bv4rynfncriyf" path="res://Shaders/Screen.gdshader" id="2_dfkmq"]
 [ext_resource type="Shader" uid="uid://b7r84i2fb87kh" path="res://Shaders/ScreenBack.gdshader" id="2_wjpyy"]
 [ext_resource type="Texture2D" uid="uid://gknyl5fclje1" path="res://Logo.png" id="3_sbbcb"]
-[ext_resource type="Theme" uid="uid://bwq57hwwfhun8" path="res://Themes/ControllerScreen.tres" id="3_wjpyy"]
 [ext_resource type="Texture2D" uid="uid://dv5qpylu3eq3w" path="res://Images/Screenshot_20251012_153750.png" id="4_df6an"]
-[ext_resource type="PackedScene" uid="uid://cmyw3yb3waxsx" path="res://Scenes/Spinner.tscn" id="6_fj64j"]
+[ext_resource type="Script" uid="uid://cx1pbpvvyanbk" path="res://Scripts/ServersMenu.gd" id="7_ip8se"]
+[ext_resource type="Script" uid="uid://du600q038n0rb" path="res://Scripts/AddressPicker.gd" id="8_6lg4y"]
+[ext_resource type="PackedScene" uid="uid://dn55aimvlph1k" path="res://Scenes/AddressDigit2D.tscn" id="8_df6an"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_16w26"]
 resource_local_to_scene = true
 size = Vector3(1.92, 1.08, 0.05)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sbbcb"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2_dfkmq")
 shader_parameter/settings_tex = ExtResource("3_sbbcb")
 shader_parameter/video_tex = ExtResource("4_df6an")
-shader_parameter/settings = 1.0
+shader_parameter/connected = false
+shader_parameter/settings = 0.0
 shader_parameter/size = Vector2(1.92, 1.08)
 shader_parameter/scale = 0.2
 shader_parameter/cursor1 = Vector2(0.325, -0.145)
@@ -61,6 +64,7 @@ mesh = SubResource("PlaneMesh_ip8se")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 transparent_bg = true
+gui_embed_subwindows = true
 size = Vector2i(1920, 1080)
 
 [node name="Screen" type="Control" parent="."]
@@ -68,60 +72,137 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
-theme = ExtResource("3_wjpyy")
+theme = ExtResource("1_5rteq")
+script = ExtResource("7_ip8se")
 
 [node name="MarginContainer" type="MarginContainer" parent="Screen"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -960.0
+offset_bottom = -540.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(2, 2)
 
-[node name="PanelContainer" type="PanelContainer" parent="Screen/MarginContainer"]
+[node name="Frame" type="PanelContainer" parent="Screen/MarginContainer"]
 custom_minimum_size = Vector2(750, 500)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme = ExtResource("1_5rteq")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Screen/MarginContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Screen/MarginContainer/Frame"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Screen/MarginContainer/PanelContainer/VBoxContainer"]
+[node name="HorzSplit" type="HBoxContainer" parent="Screen/MarginContainer/Frame/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer L" type="VBoxContainer" parent="Screen/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Left Side" type="VBoxContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MenuButton" type="MenuButton" parent="Screen/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer L"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side"]
 layout_mode = 2
-text = "Servers"
 
-[node name="VBoxContainer R" type="VBoxContainer" parent="Screen/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Address" type="OptionButton" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+alignment = 1
+selected = 0
+item_count = 1
+popup/item_0/text = "Custom Address"
+popup/item_0/id = 0
+
+[node name="Server" type="OptionButton" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+fit_to_longest_item = false
+
+[node name="Address Picker" type="HBoxContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side"]
+layout_mode = 2
+script = ExtResource("8_6lg4y")
+
+[node name="OptionButton1" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+layout_mode = 2
+selected = 1
+
+[node name="OptionButton2" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+layout_mode = 2
+selected = 9
+
+[node name="OptionButton3" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+layout_mode = 2
+selected = 2
+
+[node name="Label" type="Label" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker"]
+layout_mode = 2
+text = "."
+
+[node name="OptionButton4" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+layout_mode = 2
+selected = 1
+
+[node name="OptionButton5" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+layout_mode = 2
+selected = 6
+
+[node name="OptionButton6" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+layout_mode = 2
+selected = 8
+
+[node name="Label2" type="Label" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker"]
+layout_mode = 2
+text = "."
+
+[node name="OptionButton7" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+layout_mode = 2
+selected = 7
+
+[node name="OptionButton8" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+layout_mode = 2
+selected = -1
+
+[node name="OptionButton9" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+layout_mode = 2
+selected = -1
+
+[node name="Label3" type="Label" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker"]
+layout_mode = 2
+text = "."
+
+[node name="OptionButton10" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+layout_mode = 2
+selected = 9
+
+[node name="OptionButton11" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+layout_mode = 2
+selected = 3
+
+[node name="OptionButton12" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+layout_mode = 2
+selected = -1
+
+[node name="Result Address" type="Label" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="Right Side" type="VBoxContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="Screen/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer R"]
+[node name="Connect" type="Button" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Right Side"]
 layout_mode = 2
 toggle_mode = true
 text = "Connect!"
 
-[node name="TextureRect" parent="Screen" instance=ExtResource("6_fj64j")]
-layout_mode = 0
-offset_left = 1783.0
-offset_top = 861.0
-offset_right = 1883.0
-offset_bottom = 961.0
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5285562, 0.7584864)
 
-[node name="Label" type="Label" parent="Screen"]
-layout_mode = 0
-offset_left = 277.0
-offset_top = 721.0
-offset_right = 1643.0
-offset_bottom = 996.0
-text = "static screen shoot"
-horizontal_alignment = 1
-vertical_alignment = 1
+[connection signal="item_selected" from="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/HBoxContainer/Address" to="Screen" method="_on_address_item_selected"]
+[connection signal="item_selected" from="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/HBoxContainer/Server" to="Screen" method="_on_server_item_selected"]
+[connection signal="toggled" from="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Right Side/Connect" to="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/HBoxContainer/Address" method="_on_button_toggled"]

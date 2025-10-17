@@ -8,7 +8,6 @@ uniform vec3 cursor = vec3(-1, -1, -1);
 uniform float cursor_str = -1;
 
 varying vec3 coords;
-
 void vertex()
 {
   coords = VERTEX.xyz;

@@ -35,6 +35,8 @@ enabled=PackedStringArray("res://addons/DualEditor/plugin.cfg", "res://addons/go
 
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
+anti_aliasing/quality/msaa_2d=1
+anti_aliasing/quality/msaa_3d=1
 environment/defaults/default_clear_color=Color(0.22430393, 0.22430414, 0.22430405, 0)
 vrs/mode=2
 

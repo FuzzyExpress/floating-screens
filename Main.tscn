@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://7idj41evt4f"]
+[gd_scene load_steps=25 format=3 uid="uid://7idj41evt4f"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_r0du0"]
 [ext_resource type="Shader" uid="uid://0juekdonpgpp" path="res://Shaders/Holograph.gdshader" id="2_uu6xs"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://bcmr3775qa11h" path="res://Scenes/Screen3D.tscn" id="5_fos0i"]
 [ext_resource type="PackedScene" uid="uid://cc6dxypu4c2hq" path="res://Scenes/ScreenSpawner.tscn" id="5_trn2v"]
 [ext_resource type="PackedScene" uid="uid://dekw36jn3o0hf" path="res://Scenes/ScreenPlacer3D.tscn" id="6_3dxm6"]
+[ext_resource type="PackedScene" uid="uid://cub2d5v07d3es" path="res://Scenes/InfoPanel3D.tscn" id="6_wkp8b"]
+[ext_resource type="Shader" uid="uid://csquqao4xpocf" path="res://Shaders/ScreenSimple.gdshader" id="7_20pc6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r0du0"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -38,6 +40,17 @@ shader_parameter/cursor_str = -1.0
 resource_local_to_scene = true
 radius = 0.05
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5vvyt"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("7_20pc6")
+shader_parameter/rainbow = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_c6i3y"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_5vvyt")
+size = Vector2(0.125, 0.063)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uu6xs"]
 render_priority = 0
 shader = ExtResource("2_uu6xs")
@@ -49,6 +62,17 @@ shader_parameter/cursor_str = -1.0
 [sub_resource type="SphereShape3D" id="SphereShape3D_trn2v"]
 resource_local_to_scene = true
 radius = 0.05
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c2ibq"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("7_20pc6")
+shader_parameter/rainbow = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_j4qnp"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_c2ibq")
+size = Vector2(0.125, 0.063)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cm0pq"]
 render_priority = 0
@@ -66,6 +90,8 @@ height = 0.4
 [node name="Node3D" type="Node3D"]
 
 [node name="StartXR" parent="." instance=ExtResource("1_r0du0")]
+enable_passthrough = true
+target_refresh_rate = 120.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
@@ -118,6 +144,15 @@ bone_name = "LeftThumbTip"
 bone_idx = 5
 
 [node name="Screen Spawner" parent="XROrigin3D/XR Hand L/OpenXRFbHandTrackingMesh" instance=ExtResource("5_trn2v")]
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="XROrigin3D/XR Hand L/OpenXRFbHandTrackingMesh"]
+bone_name = "LeftHand"
+bone_idx = 1
+
+[node name="Node3D" parent="XROrigin3D/XR Hand L/OpenXRFbHandTrackingMesh/BoneAttachment3D" node_paths=PackedStringArray("StateHolder") instance=ExtResource("6_wkp8b")]
+transform = Transform3D(7.602864e-08, 2.5342885e-08, -0.5797776, 0.56742793, 0.11902773, 7.961204e-08, 0.11902773, -0.56742793, -9.194466e-09, 0, 0.011733115, -0.020652402)
+mesh = SubResource("PlaneMesh_c6i3y")
+StateHolder = NodePath("../../../../XR Aim L/RayCast3D")
 
 [node name="XR Aim R" type="XRController3D" parent="XROrigin3D"]
 tracker = &"/user/fbhandaim/right"
@@ -176,6 +211,16 @@ shape = SubResource("SphereShape3D_trn2v")
 bone_name = "RightThumbTip"
 bone_idx = 5
 
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="XROrigin3D/XR Hand R/OpenXRFbHandTrackingMesh"]
+bone_name = "RightHand"
+bone_idx = 1
+
+[node name="Node3D" parent="XROrigin3D/XR Hand R/OpenXRFbHandTrackingMesh/BoneAttachment3D" node_paths=PackedStringArray("StateHolder") instance=ExtResource("6_wkp8b")]
+transform = Transform3D(7.602864e-08, -2.5342885e-08, 0.5797776, -0.56742793, 0.11902773, 7.961204e-08, -0.11902773, -0.56742793, -9.194466e-09, 0, 0.010952242, -0.020816203)
+mesh = SubResource("PlaneMesh_j4qnp")
+Mode = "Performance"
+StateHolder = NodePath("../../../../XR Aim R/RayCast3D")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D"]
 mesh = SubResource("SphereMesh_fos0i")
 
@@ -184,6 +229,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5275279, -0.7271652)
 
 [node name="Screen3D" parent="Anchor3D" instance=ExtResource("5_fos0i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+size = 0.6
 
 [node name="ScreenPlacer3D" parent="." node_paths=PackedStringArray("LeftTop", "LeftBottom", "RightTop", "RightBottom") instance=ExtResource("6_3dxm6")]
 visible = false

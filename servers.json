@@ -1,0 +1,34 @@
+{
+  "machines": [
+	{
+	  "name": "Tailnet > KFocus",
+	  "addr": "100.98.57.126"
+	},
+	{
+	  "name": "Tailnet > Surface",
+	  "addr": "100.93.246.68"
+	},
+	{
+	  "name": "Home > KFocus",
+	  "addr": "192.168.7.93"
+	},
+	{
+	  "name": "Home > Surface",
+	  "addr": "192.168.7.33"
+	}
+  ],
+  "servers": [
+	{
+	  "name": "ScreenFloater",
+	  "addr": ":33030",
+	  "node": "res://Scripts/Servers/ScreenFloater/Main.gd",
+	  "desc": "FFMpeg HEVC video stream with Nvidia GPU acceleration."
+	},
+	{
+	  "name": "Weylus",
+	  "addr": ":9001",
+	  "node": "res://Scripts/Servaers/Weylus/Main.gd",
+	  "desc": "Tablet drawing server with full stylus and touch screen support.\nhttps://github.com/electronstudio/WeylusCommunityEdition"
+	}
+  ]
+}

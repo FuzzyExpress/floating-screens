@@ -3,7 +3,11 @@ extends Node
 var idle	: Color = Color(0.0, 0.3, 1.0)
 var hover	: Color = Color(0.0, 0.8, 1.0)
 var click	: Color = Color(1.0, 0.7, 0.1)
+var erase	: Color = Color(1.0, 0.2, 0.2)
+var middle	: Color = Color(0.2, 1.0, 0.2)
+var setting	: Color = Color(1.0, 1.0, 1.0)
 
+var PinchThresh : float = 0.8
 
 
 func lerp(a: float, b: float, t: float) -> float:
@@ -36,3 +40,16 @@ func remap(i_min: float, i_max: float, o_min: float, o_max: float, v: float) -> 
 		6.2 == remap(1, 5, 3, 7, 4.2)
 	"""
 	return lerp(o_min, o_max, inv_lerp(i_min, i_max, v))
+
+
+func EaseIOCubic(x: float) -> float:
+	"""Cubic easing in/out - acceleration until halfway, then deceleration.
+	Examples
+	--------
+		0.5 == easeInOutCubic(0.5)
+		0.896 == easeInOutCubic(0.8)
+	"""
+	if x < 0.5:
+		return 4 * x * x * x
+	else:
+		return 1 - pow(-2 * x + 2, 3) / 2
