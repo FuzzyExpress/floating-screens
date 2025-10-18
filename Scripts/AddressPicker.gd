@@ -1,5 +1,6 @@
 extends HBoxContainer
 
+var enabled : bool = true
 
 func get_addr() -> String:
 	var addr : String = ""
@@ -15,7 +16,7 @@ func get_addr() -> String:
 
 
 func set_addr(addr: String) -> bool:
-	var digits: Array[Node] = find_children("OptionButton?", "OptionButton", false)
+	var digits: Array[Node] = find_children("OptionButton*", "OptionButton", false)
 	var c	: int = 0
 	var arr : Array = addr.split(".")
 	
@@ -32,10 +33,24 @@ func set_addr(addr: String) -> bool:
 				
 	return true
 
-
+func _disable(disable: bool):
+	for each: OptionButton in find_children("OptionButton*", "OptionButton", false):
+		each.disabled = disable
+	
+	if disable and enabled:
+		$"../../PickerDisabled".visible = true
+		reparent($"../../PickerDisabled")
+		$"../../PickerEnabled".visible = false
+		enabled = false
+		
+	elif not disable and not enabled:
+		$"../../PickerEnabled".visible = true
+		reparent($"../../PickerEnabled")
+		$"../../PickerDisabled".visible = false
+		enabled = true
+	
 func _ready() -> void:
-	print("HeHeHeHa")
-	var digits: Array[Node] = find_children("OptionButton?", "OptionButton", false)
+	var digits: Array[Node] = find_children("OptionButton*", "OptionButton", false)
 	for each: OptionButton in digits:
 		print(each)
-		each.item_selected.connect($"../../../../../.."._on_custom_item_selected)
+		each.item_selected.connect($"../../../../../../../.."._on_custom_item_selected)

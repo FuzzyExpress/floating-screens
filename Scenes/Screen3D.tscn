@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bcmr3775qa11h"]
+[gd_scene load_steps=17 format=3 uid="uid://bcmr3775qa11h"]
 
 [ext_resource type="Theme" uid="uid://c0wsmkaots3ab" path="res://Themes/Control3D.tres" id="1_5rteq"]
 [ext_resource type="Script" uid="uid://ctpoftrt5kx0" path="res://Scripts/Screen.gd" id="1_gd67i"]
@@ -26,10 +26,10 @@ shader_parameter/size = Vector2(1.92, 1.08)
 shader_parameter/scale = 0.2
 shader_parameter/cursor1 = Vector2(0.325, -0.145)
 shader_parameter/cursor_color1 = Color(0, 0.68235296, 1, 1)
-shader_parameter/cursor_str1 = 0.0
+shader_parameter/cursor_str1 = -1.0
 shader_parameter/cursor2 = Vector2(0.36, -0.19)
 shader_parameter/cursor_color2 = Color(0, 0.68235296, 1, 1)
-shader_parameter/cursor_str2 = 0.0
+shader_parameter/cursor_str2 = -1.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dfkmq"]
 resource_local_to_scene = true
@@ -46,6 +46,30 @@ shader_parameter/size = Vector2(1.92, 1.08)
 resource_local_to_scene = true
 material = SubResource("ShaderMaterial_fj64j")
 size = Vector2(1.92, 1.08)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6lg4y"]
+bg_color = Color(0.17, 0.17, 0.17, 0.627451)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.679688, 0.679688, 0.679688, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5dgle"]
+bg_color = Color(0, 0, 0, 0.627451)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.403646, 0.403646, 0.403646, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="Screen3D" type="StaticBody3D"]
 script = ExtResource("1_gd67i")
@@ -123,72 +147,97 @@ size_flags_horizontal = 3
 alignment = 1
 fit_to_longest_item = false
 
-[node name="Address Picker" type="HBoxContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side"]
+[node name="PickerHolder" type="VBoxContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side"]
+layout_mode = 2
+
+[node name="PickerEnabled" type="PanelContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6lg4y")
+
+[node name="Address Picker" type="HBoxContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled"]
 layout_mode = 2
 script = ExtResource("8_6lg4y")
 
-[node name="OptionButton1" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+[node name="OptionButton1" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker" instance=ExtResource("8_df6an")]
 layout_mode = 2
+flat = true
 selected = 1
 
-[node name="OptionButton2" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+[node name="OptionButton2" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker" instance=ExtResource("8_df6an")]
 layout_mode = 2
+flat = true
 selected = 9
 
-[node name="OptionButton3" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+[node name="OptionButton3" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker" instance=ExtResource("8_df6an")]
 layout_mode = 2
+flat = true
 selected = 2
 
-[node name="Label" type="Label" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker"]
+[node name="Label" type="Label" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker"]
 layout_mode = 2
 text = "."
 
-[node name="OptionButton4" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+[node name="OptionButton4" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker" instance=ExtResource("8_df6an")]
 layout_mode = 2
+flat = true
 selected = 1
 
-[node name="OptionButton5" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+[node name="OptionButton5" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker" instance=ExtResource("8_df6an")]
 layout_mode = 2
+flat = true
 selected = 6
 
-[node name="OptionButton6" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+[node name="OptionButton6" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker" instance=ExtResource("8_df6an")]
 layout_mode = 2
+flat = true
 selected = 8
 
-[node name="Label2" type="Label" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker"]
+[node name="Label2" type="Label" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker"]
 layout_mode = 2
 text = "."
 
-[node name="OptionButton7" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+[node name="OptionButton7" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker" instance=ExtResource("8_df6an")]
 layout_mode = 2
+flat = true
 selected = 7
 
-[node name="OptionButton8" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+[node name="OptionButton8" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker" instance=ExtResource("8_df6an")]
 layout_mode = 2
+flat = true
 selected = -1
 
-[node name="OptionButton9" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+[node name="OptionButton9" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker" instance=ExtResource("8_df6an")]
 layout_mode = 2
+flat = true
 selected = -1
 
-[node name="Label3" type="Label" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker"]
+[node name="Label3" type="Label" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker"]
 layout_mode = 2
 text = "."
 
-[node name="OptionButton10" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+[node name="OptionButton10" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker" instance=ExtResource("8_df6an")]
 layout_mode = 2
+flat = true
 selected = 9
 
-[node name="OptionButton11" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+[node name="OptionButton11" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker" instance=ExtResource("8_df6an")]
 layout_mode = 2
+flat = true
 selected = 3
 
-[node name="OptionButton12" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker" instance=ExtResource("8_df6an")]
+[node name="OptionButton12" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker" instance=ExtResource("8_df6an")]
 layout_mode = 2
+flat = true
 selected = -1
+
+[node name="PickerDisabled" type="PanelContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder"]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5dgle")
 
 [node name="Result Address" type="Label" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side"]
 layout_mode = 2
+text = "192.168.7.37:33030"
 horizontal_alignment = 1
 
 [node name="Right Side" type="VBoxContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit"]
@@ -200,9 +249,6 @@ layout_mode = 2
 toggle_mode = true
 text = "Connect!"
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5285562, 0.7584864)
-
 [connection signal="item_selected" from="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/HBoxContainer/Address" to="Screen" method="_on_address_item_selected"]
 [connection signal="item_selected" from="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/HBoxContainer/Server" to="Screen" method="_on_server_item_selected"]
-[connection signal="toggled" from="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Right Side/Connect" to="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/HBoxContainer/Address" method="_on_button_toggled"]
+[connection signal="toggled" from="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Right Side/Connect" to="Screen" method="_on_connect_toggled"]

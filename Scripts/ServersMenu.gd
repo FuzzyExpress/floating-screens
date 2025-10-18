@@ -1,15 +1,14 @@
 extends Control
 
-@onready var Screen:	MeshInstance3D = $"../ScreenCollider/ScreenPanel"
-@onready var Address:	OptionButton = find_child("Address")
-@onready var Server:	OptionButton = find_child("Server")
-@onready var AddressPicker:	Control  = $"MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Address Picker"
-@onready var AddressSel:	Control  = $"MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Result Address"
+@onready var Screen:	MeshInstance3D	= $"../ScreenCollider/ScreenPanel"
+@onready var Address:	OptionButton	= find_child("Address")
+@onready var Server:	OptionButton	= find_child("Server")
+@onready var AddressPicker:	Control		= $"MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker"
+@onready var AddressSel:	Label		= $"MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Result Address"
 
 static	 var addresses:	Dictionary = {}
 static	 var servers:	Dictionary = {}
 
-@onready var wasID : int = 0
 var address	 : String = ""
 var port	 : String = ""
 
@@ -48,14 +47,15 @@ func _process(_delta: float) -> void:
 
 
 
-func _on_button_toggled(toggled_on: bool) -> void:
+func _on_connect_toggled(toggled_on: bool) -> void:
 	Screen.mesh.surface_get_material(0).set_shader_parameter("connected", toggled_on)
 	Address.disabled = toggled_on
 	Server.disabled = toggled_on
+	AddressPicker._disable(toggled_on)
 
 
 func _on_address_item_selected(index: int) -> void:
-	AddressPicker.visible = not index
+	$"MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder".visible = not index
 	if index == 0:
 		address = AddressPicker.get_addr()
 	else:
@@ -69,4 +69,3 @@ func _on_server_item_selected(index: int) -> void:
 func _on_custom_item_selected():
 	address = AddressPicker.get_addr()
 	AddressSel.text = address + port
-	#print("CAddr Change ", address)
