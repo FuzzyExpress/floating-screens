@@ -82,10 +82,13 @@ func pointer_event(hit_pos: Vector3, State: StateKeeper):
 		if settingsLast: settingsOpen = not settingsOpen
 			
 	
+	
 	var uv = getUV(hit_pos)
 	uv.y = 1 - uv.y
 	set_cursor(uv, State)
 	# print("Hit at %f, %f" % [uv.x, uv.y])
+	
+	if not settingsOpen: return
 
 	var vp_size = Port.size
 	var pos = Vector2(uv.x * vp_size.x, uv.y * vp_size.y)

@@ -32,6 +32,12 @@ float cursor_draw(vec3 pos, float str)
 	return ( circle(pos, inner*scaler, feather*scaler) - circle(pos, outer*scaler, feather*scaler) ) * 0.5;
 }
 
+float EaseIQuad(float x)
+{
+	return x * x * x;
+}
+
+
 #include "res://Shaders/HSV.gdshaderinc"
 
 void fragment() {
@@ -46,11 +52,18 @@ void fragment() {
 	float f = fresnel(3.0, NORMAL, VIEW);
 	float e = f * 0.4;
 	if ( f > 0.4 ) { e = 1.; }
-	float c = cursor_draw(cursor, cursor_str) * 2.;
+	//float c = cursor_draw(cursor, cursor_str) * 2.;
+	float c = 1. - circle(cursor, 0, mix(0.06, 0.1, cursor_str)) * 2.;
+	
+	c = clamp(c, 0, 1);
+	c = EaseIQuad(c);
+	
 	if (cursor_str > -0.01) {
 		ALPHA = max(e,c);
 	} else {
 		ALPHA = e;
 	}
+	//ALBEDO  = coords;
+	//ALBEDO = vec3(c);
 }
 

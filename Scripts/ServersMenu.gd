@@ -6,6 +6,9 @@ extends Control
 @onready var AddressPicker:	Control		= $"MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder/PickerEnabled/Address Picker"
 @onready var AddressSel:	Label		= $"MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/Result Address"
 
+@onready var ScreenList: OptionButton	= find_child("Screens")
+@onready var ScreenRefresh: Button		= find_child("Refresh")
+
 static	 var addresses:	Dictionary = {}
 static	 var servers:	Dictionary = {}
 
@@ -52,6 +55,9 @@ func _on_connect_toggled(toggled_on: bool) -> void:
 	Address.disabled = toggled_on
 	Server.disabled = toggled_on
 	AddressPicker._disable(toggled_on)
+	
+	ScreenList.disabled  = not toggled_on
+	ScreenRefresh.disabled = not toggled_on
 
 
 func _on_address_item_selected(index: int) -> void:

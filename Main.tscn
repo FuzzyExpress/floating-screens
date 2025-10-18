@@ -78,8 +78,8 @@ size = Vector2(0.125, 0.063)
 render_priority = 0
 shader = ExtResource("2_uu6xs")
 shader_parameter/color = Vector4(0, 0.3, 1, 1)
-shader_parameter/rainbow = false
-shader_parameter/cursor = Vector3(-1, -1, -1)
+shader_parameter/rainbow = true
+shader_parameter/cursor = Vector3(0, 0, 0.2)
 shader_parameter/cursor_str = -1.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_fos0i"]

@@ -13,8 +13,9 @@ resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_vw67k")
 shader_parameter/color = Vector4(0, 0.3, 1, 1)
-shader_parameter/cursor = Vector3(0, 0, 0.021)
-shader_parameter/cursor_str = 1.0
+shader_parameter/rainbow = false
+shader_parameter/cursor = Vector3(0.03, 0, 0.021)
+shader_parameter/cursor_str = -1.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_l2yh2"]
 resource_local_to_scene = true

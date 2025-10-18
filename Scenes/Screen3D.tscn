@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bcmr3775qa11h"]
+[gd_scene load_steps=19 format=3 uid="uid://bcmr3775qa11h"]
 
 [ext_resource type="Theme" uid="uid://c0wsmkaots3ab" path="res://Themes/Control3D.tres" id="1_5rteq"]
 [ext_resource type="Script" uid="uid://ctpoftrt5kx0" path="res://Scripts/Screen.gd" id="1_gd67i"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://cx1pbpvvyanbk" path="res://Scripts/ServersMenu.gd" id="7_ip8se"]
 [ext_resource type="Script" uid="uid://du600q038n0rb" path="res://Scripts/AddressPicker.gd" id="8_6lg4y"]
 [ext_resource type="PackedScene" uid="uid://dn55aimvlph1k" path="res://Scenes/AddressDigit2D.tscn" id="8_df6an"]
+[ext_resource type="Texture2D" uid="uid://bsjohrc8q4sv8" path="res://Images/Refresh.png" id="10_5dgle"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_16w26"]
 resource_local_to_scene = true
@@ -70,6 +71,26 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+
+[sub_resource type="GDScript" id="GDScript_5dgle"]
+script/source = "extends Button
+
+var LastDisable : bool = true
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if LastDisable != disabled:
+		if disabled:
+			$CenterContainer/TextureRect.modulate = Color(\"666\")
+		else:
+			$CenterContainer/TextureRect.modulate = Color(\"f2f2f2\")
+			
+"
 
 [node name="Screen3D" type="StaticBody3D"]
 script = ExtResource("1_gd67i")
@@ -148,6 +169,7 @@ alignment = 1
 fit_to_longest_item = false
 
 [node name="PickerHolder" type="VBoxContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side"]
+visible = false
 layout_mode = 2
 
 [node name="PickerEnabled" type="PanelContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/PickerHolder"]
@@ -236,9 +258,11 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5dgle")
 
 [node name="Result Address" type="Label" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side"]
+custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
 text = "192.168.7.37:33030"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Right Side" type="VBoxContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit"]
 layout_mode = 2
@@ -248,6 +272,32 @@ size_flags_horizontal = 3
 layout_mode = 2
 toggle_mode = true
 text = "Connect!"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Right Side"]
+layout_mode = 2
+
+[node name="Screens" type="OptionButton" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Right Side/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+
+[node name="Refresh" type="Button" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Right Side/HBoxContainer"]
+custom_minimum_size = Vector2(31, 31)
+layout_mode = 2
+disabled = true
+script = SubResource("GDScript_5dgle")
+
+[node name="CenterContainer" type="CenterContainer" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Right Side/HBoxContainer/Refresh"]
+layout_mode = 0
+offset_right = 31.0
+offset_bottom = 31.0
+
+[node name="TextureRect" type="TextureRect" parent="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Right Side/HBoxContainer/Refresh/CenterContainer"]
+modulate = Color(0.4, 0.4, 0.4, 1)
+custom_minimum_size = Vector2(27, 27)
+layout_mode = 2
+texture = ExtResource("10_5dgle")
+expand_mode = 1
 
 [connection signal="item_selected" from="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/HBoxContainer/Address" to="Screen" method="_on_address_item_selected"]
 [connection signal="item_selected" from="Screen/MarginContainer/Frame/VBoxContainer/HorzSplit/Left Side/HBoxContainer/Server" to="Screen" method="_on_server_item_selected"]
